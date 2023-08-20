@@ -1,0 +1,33 @@
+{
+  "printWidth": 100,
+  "tabWidth": 2,
+  "proseWrap": "always",
+  "trailingComma": "all",
+  "useTabs": false,
+  "semi": true,
+  "singleQuote": true,
+  "bracketSameLine": false,
+  "bracketSpacing": true,
+  "quoteProps": "consistent",
+  "arrowParens": "always",
+  "jsxSingleQuote": true,
+  "overrides": [
+    {
+      "files": "*.(j|t)sx?",
+      "options": { "parser": "babel" }
+    },
+    {
+      "files": "*.scss",
+      "options": { "parser": "scss" }
+    },
+    {
+      "files": "*.json",
+      "options": { "parser": "json" }
+    },
+    {
+      "files": "*.md",
+      "options": { "parser": "markdown" }
+    }
+  ],
+  "rcVerbose": true
+}
