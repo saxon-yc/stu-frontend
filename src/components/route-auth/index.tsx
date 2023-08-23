@@ -50,7 +50,7 @@ export default function RouteAuth({ route, location = {} }: Props): JSX.Element 
   }
 
   const { isLogined } = useUserInfo();
-  const { title, auth } = targetRoute.meta;
+  const { title = '', auth = false } = get(targetRoute, 'meta', {});
   document.title = title;
 
   if (auth && !isLogined) {

@@ -1,7 +1,5 @@
 import React from 'react';
 
-const NotFound: React.FC = (): JSX.Element => {
+export default function NotFound(): JSX.Element {
   return <div>404</div>;
-};
-
-export default NotFound;
+}

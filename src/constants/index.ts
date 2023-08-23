@@ -15,6 +15,18 @@ export const RouteMenus = [
     // icon: <VideoCameraOutlined />,
   },
   {
+    key: 'student',
+    path: '/student',
+    label: '学生管理',
+    // icon: <VideoCameraOutlined />,
+  },
+  {
+    key: 'tag',
+    path: '/tag',
+    label: '标签管理',
+    // icon: <VideoCameraOutlined />,
+  },
+  {
     key: 'profile',
     path: '/profile',
     label: '设置个人信息',
