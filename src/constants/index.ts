@@ -1,13 +1,8 @@
 export const ApiWhiteList = ['/api/v1/login', '/api/v1/regist'];
-export const NotAvatar = 'https://joeschmoe.io/api/v1/random';
+export const NotAvatar =
+  'https://cdn.nlark.com/yuque/0/2022/jpeg/anonymous/…ge%2Fresize%2Cm_fill%2Cw_48%2Ch_48%2Fformat%2Cpng';
 
 export const RouteMenus = [
-  {
-    key: 'dashboard',
-    path: '/dashboard',
-    label: '工作台',
-    // icon: <UserOutlined />,
-  },
   {
     key: 'class',
     path: '/class',
@@ -25,11 +20,5 @@ export const RouteMenus = [
     path: '/tag',
     label: '标签管理',
     // icon: <VideoCameraOutlined />,
-  },
-  {
-    key: 'profile',
-    path: '/profile',
-    label: '设置个人信息',
-    // icon: <UploadOutlined />,
   },
 ];

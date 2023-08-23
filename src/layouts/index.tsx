@@ -38,7 +38,7 @@ export default function Container(props: any): JSX.Element {
             <Menu
               theme='light'
               mode='inline'
-              defaultSelectedKeys={['dashboard']}
+              defaultSelectedKeys={['']}
               items={RouteMenus}
               onClick={({ keyPath }) => {
                 router.push(`/${keyPath.join('/')}`);
