@@ -12,26 +12,25 @@ export const update_userinfo = async (params: Iobject) => {
   return apiFetch.post(`/api/v1/update/userinfo`, params);
 };
 
-export const get_posts = async (params: Iobject) => {
-  return apiFetch.post(`/api/v1/posts`, params);
+export const getTags = async (params = {}) => {
+  return apiFetch.get(`/api/tag`, { params });
+};
+export const addTag = async (params = {}) => {
+  return apiFetch.post(`/api/tag`, params);
+};
+export const updateTag = async (params = {}) => {
+  return apiFetch.put(`/api/tag`, params);
+};
+export const deleteTag = async (params = {}) => {
+  return apiFetch.delete(`/api/tag`, params);
 };
 
-export const add_post = async (params: Iobject) => {
-  return apiFetch.post(`/api/v1/post/add`, params);
+export const getNotices = async (params = {}) => {
+  return apiFetch.get(`/api/notices`, { params });
 };
-
-export const update_post = async (params: Iobject) => {
-  return apiFetch.post(`/api/v1/posts/update/${params.id}`, params);
+export const addNotice = async (params = {}) => {
+  return apiFetch.post(`/api/notice`, params);
 };
-
-export const delete_post = async (params: Iobject) => {
-  return apiFetch.post(`/api/v1/posts/delete/${params.id}`, params);
-};
-
-export const get_post_detail = async (params: Iobject) => {
-  return apiFetch.post(`/api/v1/post/${params.id}`, params);
-};
-
-export const get_categories = async () => {
-  return apiFetch.get(`/api/v1/categories`);
+export const deleteNotice = async (params = {}) => {
+  return apiFetch.delete(`/api/tag`, params);
 };

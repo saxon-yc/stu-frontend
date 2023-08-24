@@ -1,12 +1,10 @@
 import React, { useState, Suspense } from 'react';
-import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons';
-import { Layout, Menu, Button, Spin } from 'antd';
-
-import { RouteMenus } from 'constants/index';
-
-import { Header as MyHeader, RouteAuth } from 'components/index';
-import './index.scss';
 import { useHistory } from 'react-router';
+import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons';
+import { Layout, Button, Spin } from 'antd';
+
+import { Header as MyHeader, RouteMenus, RouteAuth } from 'components/index';
+import './index.scss';
 
 const { Header, Sider, Content } = Layout;
 
@@ -16,8 +14,20 @@ export default function Container(props: any): JSX.Element {
 
   return (
     <Layout className={'stu-container'} style={{ height: '100%' }}>
-      <Layout style={{ flex: 'none' }}>
-        <Header style={{ padding: 0, display: 'flex', background: '#fff' }}>
+      <Layout
+        style={{
+          flex: 'none',
+        }}
+      >
+        <Header
+          style={{
+            padding: 0,
+            background: '#fff',
+            height: '56px',
+            boxShadow:
+              '0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02)',
+          }}
+        >
           <MyHeader />
         </Header>
       </Layout>
@@ -35,15 +45,7 @@ export default function Container(props: any): JSX.Element {
         >
           <div className='demo-logo-vertical' />
           <div style={{ flex: 1 }}>
-            <Menu
-              theme='light'
-              mode='inline'
-              defaultSelectedKeys={['']}
-              items={RouteMenus}
-              onClick={({ keyPath }) => {
-                router.push(`/${keyPath.join('/')}`);
-              }}
-            />
+            <RouteMenus />
           </div>
           <Button
             type='text'

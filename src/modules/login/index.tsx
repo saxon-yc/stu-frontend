@@ -30,44 +30,48 @@ const Login = (): JSX.Element => {
             '0 4px 8px -4px rgba(0,0,0,.13), 0 6px 16px 0 rgba(0,0,0,.08), 0 12px 24px 16px rgba(0,0,0,.04)',
         }}
       >
+        <div
+          style={{
+            textAlign: 'center',
+            marginBottom: '24px',
+            fontSize: '20px',
+            fontWeight: 'bold',
+          }}
+        >
+          「班级管理系统」
+        </div>
         <Form
           name='normal_login'
           className='login-form'
           initialValues={{ remember: true }}
           onFinish={onFinish}
         >
-          <Form.Item
-            name='username'
-            rules={[{ required: true, message: 'Please input your Username!' }]}
-          >
+          <Form.Item name='username' rules={[{ required: true, message: '请输入账户名' }]}>
             <Input
               prefix={<UserOutlined className='site-form-item-icon' />}
-              placeholder='Username'
+              placeholder='请输入账户名'
             />
           </Form.Item>
-          <Form.Item
-            name='password'
-            rules={[{ required: true, message: 'Please input your Password!' }]}
-          >
+          <Form.Item name='password' rules={[{ required: true, message: '请输入密码' }]}>
             <Input
               prefix={<LockOutlined className='site-form-item-icon' />}
               type='password'
-              placeholder='Password'
+              placeholder='请输入密码'
             />
           </Form.Item>
           <Form.Item>
             <Form.Item name='remember' valuePropName='checked' noStyle>
-              <Checkbox>Remember me</Checkbox>
+              <Checkbox>记住密码</Checkbox>
             </Form.Item>
 
             <a className='login-form-forgot' href=''>
-              Forgot password
+              忘记密码
             </a>
           </Form.Item>
 
           <Form.Item>
             <Button type='primary' htmlType='submit' style={{ width: '100%' }}>
-              Log in
+              登录
             </Button>
           </Form.Item>
         </Form>

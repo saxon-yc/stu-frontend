@@ -20,7 +20,15 @@ export default function Header(): JSX.Element {
   };
 
   return (
-    <div style={{ padding: '0 20px', display: 'flex', alignItems: 'center', width: '100%' }}>
+    <div
+      style={{
+        padding: '0 20px',
+        display: 'flex',
+        alignItems: 'center',
+        width: '100%',
+        height: '100%',
+      }}
+    >
       <Tooltip title='工作台'>
         <Button type='text' onClick={() => history.push('/dashboard')}>
           Sky

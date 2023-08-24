@@ -39,7 +39,7 @@ const router: RouteConfig[] = [
       {
         path: '/class',
         exact: true,
-        component: loadComponent('class_management/index.tsx'),
+        component: loadComponent('class/index.tsx'),
         meta: {
           title: '班级管理',
           auth: false,
@@ -48,7 +48,7 @@ const router: RouteConfig[] = [
       {
         path: '/student',
         exact: true,
-        component: loadComponent('student_management/student_list.tsx'),
+        component: loadComponent('student/list/index.tsx'),
         meta: {
           title: '学生管理',
           auth: false,
@@ -57,7 +57,7 @@ const router: RouteConfig[] = [
       {
         path: '/student/info/:id',
         exact: false,
-        component: loadComponent('student_management/student_info.tsx'),
+        component: loadComponent('student/info/index.tsx'),
         meta: {
           title: '学生信息',
           auth: false,
@@ -66,7 +66,7 @@ const router: RouteConfig[] = [
       {
         path: '/tag',
         exact: true,
-        component: loadComponent('tag_management/index.tsx'),
+        component: loadComponent('tag/index.tsx'),
         meta: {
           title: '标签管理',
           auth: false,
@@ -78,6 +78,15 @@ const router: RouteConfig[] = [
         component: loadComponent('profile/index.tsx'),
         meta: {
           title: '个人信息',
+          auth: false,
+        },
+      },
+      {
+        path: '/notice',
+        exact: true,
+        component: loadComponent('notice/index.tsx'),
+        meta: {
+          title: '家长通知',
           auth: false,
         },
       },
