@@ -1,7 +1,7 @@
 import React, { useState, Suspense } from 'react';
 import { useHistory } from 'react-router';
 import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons';
-import { Layout, Button, Spin } from 'antd';
+import { Layout, Button, Spin, Breadcrumb } from 'antd';
 
 import { Header as MyHeader, RouteMenus, RouteAuth } from 'components/index';
 import './index.scss';
@@ -68,6 +68,23 @@ export default function Container(props: any): JSX.Element {
             }}
           >
             <Suspense fallback={<Spin />}>
+              <Breadcrumb
+                style={{ marginBottom: '24px' }}
+                items={[
+                  {
+                    href: '',
+                    title: <span>学生管理</span>,
+                  },
+                  {
+                    href: '',
+                    title: (
+                      <>
+                        <span>学生信息</span>
+                      </>
+                    ),
+                  },
+                ]}
+              />
               <RouteAuth {...props} />
             </Suspense>
           </Content>
