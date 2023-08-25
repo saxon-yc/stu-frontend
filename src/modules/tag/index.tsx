@@ -10,6 +10,7 @@ import { TAGS } from 'constants/columns';
 import { QueryForm } from 'components/index';
 import CreateUpdateModal from './cu-modal';
 import { addTag, deleteTag, getTags, updateTag } from 'apis/index';
+import { theme } from 'constants/theme';
 
 export default function TagManagement(): JSX.Element {
   const [queryParams, setQueryParams] = useState<QueryParams>(QUERY_PARAMS);
@@ -37,8 +38,8 @@ export default function TagManagement(): JSX.Element {
     },
     {
       id: '2',
-      tag_name: '龋齿',
-      tag_description: '牙齿有问题',
+      tag_name: '芒果过敏',
+      tag_description: '吃芒果拉肚子',
       bind_number: 32,
       create_time: Date.now(),
     },
@@ -81,7 +82,7 @@ export default function TagManagement(): JSX.Element {
           return (
             <>
               <Button type='text' size='small' onClick={() => handleShowModal('edtior', row)}>
-                <EditOutlined />
+                <EditOutlined style={{ color: theme.token?.colorPrimary }} />
               </Button>
               <Popconfirm
                 title='删除标签'
@@ -108,11 +109,7 @@ export default function TagManagement(): JSX.Element {
 
   return (
     <>
-      <QueryForm
-        params={queryParams}
-        placeholder='请输入标签名/id'
-        onChangeQuery={debounce(onChangeQueryParams, 100)}
-      >
+      <QueryForm placeholder='请输入标签名/id' onChangeQuery={debounce(onChangeQueryParams, 100)}>
         <Button type='primary' onClick={() => handleShowModal('add')}>
           <PlusOutlined />
           新增标签

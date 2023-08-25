@@ -6,6 +6,7 @@ import { useUserInfo } from 'hooks/user-info';
 
 import UserAction from './user-action';
 import './index.scss';
+import { theme } from 'constants/theme';
 
 const { Search } = Input;
 
@@ -30,7 +31,10 @@ export default function Header(): JSX.Element {
       }}
     >
       <Tooltip title='工作台'>
-        <Button type='text' onClick={() => history.push('/dashboard')}>
+        <Button
+          type={location.pathname === '/dashboard' ? 'primary' : 'default'}
+          onClick={() => history.push('/dashboard')}
+        >
           Sky
         </Button>
       </Tooltip>

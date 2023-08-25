@@ -1,30 +1,28 @@
 import React, { ReactNode } from 'react';
-import { Card, DatePicker, Input, Select, Space } from 'antd';
+import { Card, DatePicker, Input, Space } from 'antd';
 
 const { Search } = Input;
 const { RangePicker } = DatePicker;
 
 interface Props {
-  params: QueryParams;
   children: ReactNode | JSX.Element;
   placeholder: string;
-  showSelector?: boolean;
   showDatePicker?: boolean;
+  selector?: ReactNode | JSX.Element;
   onChangeQuery: (params?: {}) => void;
 }
 
 export default function QueryForm({
-  params,
   children,
   placeholder,
-  showSelector = false,
   showDatePicker = true,
+  selector,
   onChangeQuery,
 }: Props): JSX.Element {
   return (
     <Card
       style={{
-        marginBottom: '24px',
+        marginBottom: '20px',
       }}
       bodyStyle={{
         display: 'flex',
@@ -33,14 +31,14 @@ export default function QueryForm({
       }}
     >
       <div>
-        <Space size={[24, 24]} wrap>
+        <Space size={[20, 20]} wrap>
           <Search
             style={{ width: 240 }}
             allowClear
             placeholder={placeholder}
             onSearch={(val: string) => onChangeQuery({ search_word: val })}
           />
-          {showSelector && <Select />}
+          {selector && selector}
           {showDatePicker &&
             React.createElement(RangePicker, {
               showTime: true,
@@ -55,7 +53,11 @@ export default function QueryForm({
             })}
         </Space>
       </div>
-      <div style={{ marginLeft: 'auto' }}>{children}</div>
+      <div style={{ marginLeft: 'auto' }}>
+        <Space size={[20, 20]} wrap>
+          {children}
+        </Space>
+      </div>
     </Card>
   );
 }

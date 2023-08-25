@@ -10,6 +10,7 @@ import { TAGS } from 'constants/columns';
 import { QueryForm } from 'components/index';
 import CreateUpdateModal from './cu-modal';
 import { addNotice, deleteNotice, getNotices } from 'apis/index';
+import { theme } from 'constants/theme';
 
 export default function NoticeManagement(): JSX.Element {
   const [queryParams, setQueryParams] = useState<QueryParams>(QUERY_PARAMS);
@@ -81,7 +82,10 @@ export default function NoticeManagement(): JSX.Element {
           return (
             <>
               <Button type='text' size='small' onClick={() => handleShowModal('edtior', row)}>
-                <EditOutlined />
+                <EditOutlined style={{ color: theme.token?.colorPrimary }} />
+              </Button>
+              <Button type='text' size='small' onClick={() => handleShowModal('edtior', row)}>
+                复制
               </Button>
               <Popconfirm
                 title='删除标签'
@@ -108,14 +112,10 @@ export default function NoticeManagement(): JSX.Element {
 
   return (
     <>
-      <QueryForm
-        params={queryParams}
-        placeholder='请输入标签名/id'
-        onChangeQuery={debounce(onChangeQueryParams, 100)}
-      >
+      <QueryForm placeholder='请输入标签名/id' onChangeQuery={debounce(onChangeQueryParams, 100)}>
         <Button type='primary' onClick={() => handleShowModal('add')}>
           <PlusOutlined />
-          新增标签
+          新建通知
         </Button>
       </QueryForm>
       <Card>

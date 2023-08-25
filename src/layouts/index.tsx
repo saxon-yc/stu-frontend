@@ -1,17 +1,14 @@
 import React, { useState, Suspense } from 'react';
-import { useHistory } from 'react-router';
 import { DoubleLeftOutlined, DoubleRightOutlined } from '@ant-design/icons';
-import { Layout, Button, Spin, Breadcrumb } from 'antd';
+import { Layout, Button, Spin } from 'antd';
 
-import { Header as MyHeader, RouteMenus, RouteAuth } from 'components/index';
+import { Header as MyHeader, RouteMenus, RouteAuth, MyBreadcrumb } from 'components/index';
 import './index.scss';
 
 const { Header, Sider, Content } = Layout;
 
 export default function Container(props: any): JSX.Element {
   const [collapsed, setCollapsed] = useState(false);
-  const router = useHistory();
-
   return (
     <Layout className={'stu-container'} style={{ height: '100%' }}>
       <Layout
@@ -68,23 +65,7 @@ export default function Container(props: any): JSX.Element {
             }}
           >
             <Suspense fallback={<Spin />}>
-              <Breadcrumb
-                style={{ marginBottom: '24px' }}
-                items={[
-                  {
-                    href: '',
-                    title: <span>学生管理</span>,
-                  },
-                  {
-                    href: '',
-                    title: (
-                      <>
-                        <span>学生信息</span>
-                      </>
-                    ),
-                  },
-                ]}
-              />
+              <MyBreadcrumb {...props} />
               <RouteAuth {...props} />
             </Suspense>
           </Content>

@@ -18,7 +18,6 @@ const getTargetRoute = (routes: RouteConfig[] | Iobject[], pathname: string): Io
     '[0]',
     {},
   );
-
   if (!isEmpty(target)) {
     return target;
   }

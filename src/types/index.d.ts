@@ -1,5 +1,5 @@
 type Iobject = {
-  readonly [index: string]: any;
+  [index: string]: any;
 };
 
 type Ifunction<T = void> = (...params: any[]) => T;

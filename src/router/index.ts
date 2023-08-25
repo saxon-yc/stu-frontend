@@ -1,7 +1,8 @@
 import { RouteConfig } from 'react-router-config';
 
-import { redirect } from './redirect';
+import { ROUTE_TITLE_MAP } from 'constants/index';
 import { loadComponent } from 'utils/route';
+import { redirect } from './redirect';
 
 import Container from 'layouts/index';
 import Login from 'src/modules/login';
@@ -12,7 +13,7 @@ const router: RouteConfig[] = [
     exact: true,
     component: redirect('/dashboard'),
     meta: {
-      title: '工作台',
+      title: ROUTE_TITLE_MAP['/dashboard'],
       auth: true,
     },
   },
@@ -21,7 +22,7 @@ const router: RouteConfig[] = [
     exact: true,
     component: Login,
     meta: {
-      title: '登录',
+      title: ROUTE_TITLE_MAP['/login'],
     },
   },
   {
@@ -32,7 +33,7 @@ const router: RouteConfig[] = [
         exact: true,
         component: loadComponent('dashboard/index.tsx'),
         meta: {
-          title: '工作台',
+          title: ROUTE_TITLE_MAP['/dashboard'],
           auth: false,
         },
       },
@@ -41,7 +42,7 @@ const router: RouteConfig[] = [
         exact: true,
         component: loadComponent('class/index.tsx'),
         meta: {
-          title: '班级管理',
+          title: ROUTE_TITLE_MAP['/class'],
           auth: false,
         },
       },
@@ -50,16 +51,16 @@ const router: RouteConfig[] = [
         exact: true,
         component: loadComponent('student/list/index.tsx'),
         meta: {
-          title: '学生管理',
+          title: ROUTE_TITLE_MAP['/student'],
           auth: false,
         },
       },
       {
-        path: '/student/info/:id',
+        path: '/student/:id',
         exact: false,
         component: loadComponent('student/info/index.tsx'),
         meta: {
-          title: '学生信息',
+          title: ROUTE_TITLE_MAP['/student/:id'],
           auth: false,
         },
       },
@@ -68,7 +69,7 @@ const router: RouteConfig[] = [
         exact: true,
         component: loadComponent('tag/index.tsx'),
         meta: {
-          title: '标签管理',
+          title: ROUTE_TITLE_MAP['/tag'],
           auth: false,
         },
       },
@@ -77,7 +78,7 @@ const router: RouteConfig[] = [
         exact: true,
         component: loadComponent('profile/index.tsx'),
         meta: {
-          title: '个人信息',
+          title: ROUTE_TITLE_MAP['/profile'],
           auth: false,
         },
       },
@@ -86,7 +87,16 @@ const router: RouteConfig[] = [
         exact: true,
         component: loadComponent('notice/index.tsx'),
         meta: {
-          title: '家长通知',
+          title: ROUTE_TITLE_MAP['/notice'],
+          auth: false,
+        },
+      },
+      {
+        path: '/workhandover',
+        exact: true,
+        component: loadComponent('workhandover/index.tsx'),
+        meta: {
+          title: ROUTE_TITLE_MAP['/workhandover'],
           auth: false,
         },
       },
@@ -96,7 +106,7 @@ const router: RouteConfig[] = [
         component: loadComponent('404/index.tsx'),
         exact: true,
         meta: {
-          title: '页面不存在',
+          title: ROUTE_TITLE_MAP['/404'],
         },
       },
       {
@@ -105,7 +115,7 @@ const router: RouteConfig[] = [
         component: redirect('/404'),
         exact: true,
         meta: {
-          title: '页面不存在',
+          title: ROUTE_TITLE_MAP['/404'],
         },
       },
     ],
@@ -116,7 +126,7 @@ const router: RouteConfig[] = [
     component: loadComponent('404/index.tsx'),
     exact: true,
     meta: {
-      title: '页面不存在',
+      title: ROUTE_TITLE_MAP['/404'],
     },
   },
   {
@@ -125,7 +135,7 @@ const router: RouteConfig[] = [
     component: redirect('/404'),
     exact: true,
     meta: {
-      title: '页面不存在',
+      title: ROUTE_TITLE_MAP['/*'],
     },
   },
 ];

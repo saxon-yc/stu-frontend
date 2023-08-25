@@ -14,14 +14,17 @@ const items: MenuProps['items'] = [
     label: (
       <a rel='noopener noreferrer' href='/profile'>
         <SettingOutlined />
-        账户设置
+        <span style={{ marginLeft: '12px' }}>账户设置</span>
       </a>
     ),
   },
   {
     key: '2',
-    label: <a rel='noopener noreferrer'>2nd menu item (disabled)</a>,
-    disabled: true,
+    label: (
+      <a rel='noopener noreferrer' href='/workhandover'>
+        <span style={{ marginLeft: '12px' }}>工作交接</span>
+      </a>
+    ),
   },
 ];
 
