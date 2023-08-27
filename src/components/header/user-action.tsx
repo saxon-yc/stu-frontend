@@ -1,5 +1,5 @@
 import React from 'react';
-import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { LogoutOutlined, SettingOutlined, SwapOutlined, UserOutlined } from '@ant-design/icons';
 import { Avatar, Dropdown, Space, Divider, Button } from 'antd';
 import type { MenuProps } from 'antd';
 
@@ -22,6 +22,7 @@ const items: MenuProps['items'] = [
     key: '2',
     label: (
       <a rel='noopener noreferrer' href='/workhandover'>
+        <SwapOutlined />
         <span style={{ marginLeft: '12px' }}>工作交接</span>
       </a>
     ),
@@ -35,7 +36,7 @@ export default function UserAction(): JSX.Element {
     <Dropdown
       menu={{ items }}
       dropdownRender={(m) => (
-        <div className='dropdown-content'>
+        <div style={{ borderRadius: 6 }} className='dropdown-content'>
           {m}
           <Divider style={{ margin: 0 }} />
           <Space style={{ padding: 8 }}>

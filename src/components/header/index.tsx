@@ -1,16 +1,16 @@
 import React from 'react';
 import { useHistory } from 'react-router';
-import { Button, Input, Tooltip } from 'antd';
+import { Input } from 'antd';
 
 import { useUserInfo } from 'hooks/user-info';
 
 import UserAction from './user-action';
 import './index.scss';
-import { theme } from 'constants/theme';
+import { MyBreadcrumb } from '..';
 
 const { Search } = Input;
 
-export default function Header(): JSX.Element {
+export default function Header(props: any): JSX.Element {
   const history = useHistory();
   const { isLogined } = useUserInfo();
 
@@ -30,14 +30,7 @@ export default function Header(): JSX.Element {
         height: '100%',
       }}
     >
-      <Tooltip title='工作台'>
-        <Button
-          type={location.pathname === '/dashboard' ? 'primary' : 'default'}
-          onClick={() => history.push('/dashboard')}
-        >
-          Sky
-        </Button>
-      </Tooltip>
+      <MyBreadcrumb {...props} />
       <span style={{ marginLeft: 'auto' }}>
         <UserAction />
       </span>

@@ -8,14 +8,12 @@ import { theme } from 'constants/theme';
 import router from './router';
 import 'scss/main.scss';
 
-const App = (): JSX.Element => {
+export default function App(): JSX.Element {
   return (
     <BrowserRouter>
-      <ConfigProvider locale={locale} theme={theme}>
+      <ConfigProvider locale={locale} theme={theme} componentSize={'middle'}>
         {renderRoutes(router)}
       </ConfigProvider>
     </BrowserRouter>
   );
-};
-
-export default App;
+}

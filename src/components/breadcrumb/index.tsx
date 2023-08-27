@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Breadcrumb } from 'antd';
-import { ROUTE_TITLE_MAP } from 'constants/index';
+import { ROUTE_TITLE_MAP } from 'constants/routes';
 
 export default function MyBreadcrumb(props: any): JSX.Element {
   const { location = {} } = props;
@@ -24,5 +24,5 @@ export default function MyBreadcrumb(props: any): JSX.Element {
   }, [location.pathname]);
   const [breadcrumbItems, setBreadcrumbItems] = useState(getBreadcrumItems());
 
-  return <Breadcrumb style={{ marginBottom: '20px' }} items={breadcrumbItems} />;
+  return <Breadcrumb items={breadcrumbItems} />;
 }

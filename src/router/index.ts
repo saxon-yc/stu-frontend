@@ -1,6 +1,6 @@
 import { RouteConfig } from 'react-router-config';
 
-import { ROUTE_TITLE_MAP } from 'constants/index';
+import { ROUTE_TITLE_MAP } from 'constants/routes';
 import { loadComponent } from 'utils/route';
 import { redirect } from './redirect';
 

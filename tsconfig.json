@@ -24,7 +24,8 @@
       "components/*": ["src/components/*"],
       "layouts/*": ["src/layouts/*"],
       "hooks/*": ["src/hooks/*"],
-      "scss/*": ["src/scss/*"]
+      "scss/*": ["src/scss/*"],
+      "static/*": ["src/static/*"]
     }
   },
   "include": ["src", "importBatchModule.ts"]

@@ -27,6 +27,7 @@ module.exports = {
       layouts: _resolve('src/layouts'),
       hooks: _resolve('src/hooks'),
       scss: _resolve('src/scss'),
+      static: _resolve('src/static'),
     },
   },
 
