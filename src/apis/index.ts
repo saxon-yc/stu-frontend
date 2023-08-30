@@ -1,52 +1,52 @@
 import apiFetch from 'utils/request';
 
 export const login = async (params: Iobject) => {
-  return apiFetch.post(`/api/v1/login`, params);
+  return apiFetch.post(`/login`, params);
 };
 
 export const regist = async (params: Iobject) => {
-  return apiFetch.post(`/api/v1/regist`, params);
+  return apiFetch.post(`/regist`, params);
 };
 
 export const update_userinfo = async (params: Iobject) => {
-  return apiFetch.post(`/api/v1/update/userinfo`, params);
+  return apiFetch.post(`/update/userinfo`, params);
 };
 
 export const getStudents = async (params = {}) => {
-  return apiFetch.get(`/api/student`, { params });
+  return apiFetch.get(`/student`, { params });
 };
 export const getStudentDetail = async (params: Iobject) => {
-  return apiFetch.get(`/api/student/${params.id}`, { params });
+  return apiFetch.get(`/student/${params.id}`, { params });
 };
 export const addStudent = async (params = {}) => {
-  return apiFetch.post(`/api/student`, { params });
+  return apiFetch.post(`/student`, { params });
 };
 export const updateStudent = async (params = {}) => {
-  return apiFetch.put(`/api/student`, params);
+  return apiFetch.put(`/student`, params);
 };
 export const deleteStudent = async (params = {}) => {
-  return apiFetch.delete(`/api/student`, params);
+  return apiFetch.delete(`/student`, params);
 };
 
 export const getTags = async (params = {}) => {
-  return apiFetch.get(`/api/tag`, { params });
+  return apiFetch.get(`/tag`, { params });
 };
 export const addTag = async (params = {}) => {
-  return apiFetch.post(`/api/tag`, params);
+  return apiFetch.post(`/tag`, params);
 };
 export const updateTag = async (params = {}) => {
-  return apiFetch.put(`/api/tag`, params);
+  return apiFetch.put(`/tag`, params);
 };
 export const deleteTag = async (params = {}) => {
-  return apiFetch.delete(`/api/tag`, params);
+  return apiFetch.delete(`/tag`, params);
 };
 
 export const getNotices = async (params = {}) => {
-  return apiFetch.get(`/api/notices`, { params });
+  return apiFetch.get(`/notices`, { params });
 };
 export const addNotice = async (params = {}) => {
-  return apiFetch.post(`/api/notice`, params);
+  return apiFetch.post(`/notice`, params);
 };
 export const deleteNotice = async (params = {}) => {
-  return apiFetch.delete(`/api/tag`, params);
+  return apiFetch.delete(`/tag`, params);
 };

@@ -34,7 +34,7 @@ const router: RouteConfig[] = [
         component: loadComponent('dashboard/index.tsx'),
         meta: {
           title: ROUTE_TITLE_MAP['/dashboard'],
-          auth: false,
+          auth: true,
         },
       },
       {
@@ -43,7 +43,7 @@ const router: RouteConfig[] = [
         component: loadComponent('class/index.tsx'),
         meta: {
           title: ROUTE_TITLE_MAP['/class'],
-          auth: false,
+          auth: true,
         },
       },
       {
@@ -52,7 +52,7 @@ const router: RouteConfig[] = [
         component: loadComponent('student/list/index.tsx'),
         meta: {
           title: ROUTE_TITLE_MAP['/student'],
-          auth: false,
+          auth: true,
         },
       },
       {
@@ -61,7 +61,7 @@ const router: RouteConfig[] = [
         component: loadComponent('student/info/index.tsx'),
         meta: {
           title: ROUTE_TITLE_MAP['/student/:id'],
-          auth: false,
+          auth: true,
         },
       },
       {
@@ -70,7 +70,7 @@ const router: RouteConfig[] = [
         component: loadComponent('tag/index.tsx'),
         meta: {
           title: ROUTE_TITLE_MAP['/tag'],
-          auth: false,
+          auth: true,
         },
       },
       {
@@ -79,7 +79,7 @@ const router: RouteConfig[] = [
         component: loadComponent('profile/index.tsx'),
         meta: {
           title: ROUTE_TITLE_MAP['/profile'],
-          auth: false,
+          auth: true,
         },
       },
       {
@@ -88,7 +88,7 @@ const router: RouteConfig[] = [
         component: loadComponent('notice/index.tsx'),
         meta: {
           title: ROUTE_TITLE_MAP['/notice'],
-          auth: false,
+          auth: true,
         },
       },
       {
@@ -97,7 +97,7 @@ const router: RouteConfig[] = [
         component: loadComponent('workhandover/index.tsx'),
         meta: {
           title: ROUTE_TITLE_MAP['/workhandover'],
-          auth: false,
+          auth: true,
         },
       },
       {

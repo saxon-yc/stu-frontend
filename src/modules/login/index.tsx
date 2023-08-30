@@ -5,13 +5,14 @@ import { useHistory } from 'react-router';
 
 import { useUserInfo } from 'hooks/user-info';
 import './index.scss';
+import { saltMD5 } from 'utils/crypto';
 
 const Login = (): JSX.Element => {
   const history = useHistory();
   const { onLogin } = useUserInfo();
 
-  const onFinish = async ({ password, username }: Iobject) => {
-    onLogin(password, username);
+  const onFinish = async ({ password, account }: Iobject) => {
+    onLogin(saltMD5(password), account);
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -46,7 +47,7 @@ const Login = (): JSX.Element => {
           initialValues={{ remember: true }}
           onFinish={onFinish}
         >
-          <Form.Item name='username' rules={[{ required: true, message: '请输入账户名' }]}>
+          <Form.Item name='account' rules={[{ required: true, message: '请输入账户名' }]}>
             <Input
               prefix={<UserOutlined className='site-form-item-icon' />}
               placeholder='请输入账户名'

@@ -5,13 +5,14 @@ import { ApiWhiteList } from 'constants/index';
 import { cookie } from 'utils/storage';
 
 const apiFetch = axios.create({
-  baseURL: '/',
+  baseURL: '/api/v1',
   timeout: 15000,
 });
 
 apiFetch.interceptors.request.use(
   (config: AxiosRequestConfig | Iobject) => {
-    config.headers['Content-Type'] = 'application/json; charset=UTF-8';
+    config.headers['Accept'] = 'application/json';
+    config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
 
     if (!ApiWhiteList.includes(config.url)) {
       config.headers['token'] = cookie.get('TOKEN');
