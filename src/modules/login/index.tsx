@@ -11,8 +11,8 @@ const Login = (): JSX.Element => {
   const history = useHistory();
   const { onLogin } = useUserInfo();
 
-  const onFinish = async ({ password, account }: Iobject) => {
-    onLogin(saltMD5(password), account);
+  const onFinish = async ({ password, account, is_create_account }: Iobject) => {
+    onLogin({ account, is_create_account, password: saltMD5(password) });
   };
 
   const onFinishFailed = (errorInfo: any) => {
@@ -44,7 +44,7 @@ const Login = (): JSX.Element => {
         <Form
           name='normal_login'
           className='login-form'
-          initialValues={{ remember: true }}
+          initialValues={{ is_create_account: false }}
           onFinish={onFinish}
         >
           <Form.Item name='account' rules={[{ required: true, message: '请输入账户名' }]}>
@@ -61,8 +61,8 @@ const Login = (): JSX.Element => {
             />
           </Form.Item>
           <Form.Item>
-            <Form.Item name='remember' valuePropName='checked' noStyle>
-              <Checkbox>记住密码</Checkbox>
+            <Form.Item name='is_create_account' valuePropName='checked' noStyle>
+              <Checkbox>是否登录并注册账号?</Checkbox>
             </Form.Item>
 
             <a className='login-form-forgot' href=''>

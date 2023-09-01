@@ -11,8 +11,8 @@ export const useUserInfo = () => {
 
   const [isLogined, setLogined] = useState(Boolean(cookie.get('TOKEN')) || false);
   const [userinfo, setUserinfo] = useState(users);
-  const onLogin = async (password: string, account: string) => {
-    const res: Iobject = await login({ password, account });
+  const onLogin = async (params: Iobject) => {
+    const res: Iobject = await login(params);
     if (res.code === 0) {
       message.success('登录成功');
       cookie.set('TOKEN', res.data.token, 7);
