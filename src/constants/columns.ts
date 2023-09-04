@@ -43,18 +43,18 @@ export const STUDENTS: ColumnsType<any> = [
 export const TAGS: ColumnsType<any> = [
   {
     title: '标签名',
-    dataIndex: 'tag_name',
-    key: 'tag_name',
+    dataIndex: 'label',
+    key: 'label',
   },
   {
     title: '标签说明',
-    dataIndex: 'tag_description',
-    key: 'tag_description',
+    dataIndex: 'content',
+    key: 'content',
   },
   {
     title: '绑定学生数量',
-    dataIndex: 'bind_number',
-    key: 'bind_number',
+    dataIndex: 'count',
+    key: 'count',
   },
   {
     title: '创建时间',

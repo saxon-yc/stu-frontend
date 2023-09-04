@@ -37,8 +37,8 @@ export const addTag = async (params = {}) => {
 export const updateTag = async (params = {}) => {
   return apiFetch.put(`/tag`, params);
 };
-export const deleteTag = async (params = {}) => {
-  return apiFetch.delete(`/tag`, params);
+export const deleteTag = async (params: Iobject) => {
+  return apiFetch.delete(`/tag/${params.id}`);
 };
 
 export const getNotices = async (params = {}) => {

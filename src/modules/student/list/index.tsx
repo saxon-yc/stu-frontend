@@ -33,7 +33,8 @@ export default function StudentList(): JSX.Element {
   const fetchTags = async (params = {}) => {
     const res: Iobject = await getTags({ ...queryParams, ...params });
     if (res.code === 0) {
-      setTags(res.data);
+      const { list } = res.data;
+      setTags(list.map((tag: Iobject) => ({ id: tag.id, value: tag.label })));
     }
   };
   const [tags, setTags] = useState([

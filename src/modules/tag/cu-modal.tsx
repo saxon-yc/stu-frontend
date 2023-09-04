@@ -47,10 +47,10 @@ export default function CreateUpdateModal({
   return (
     <Modal title={title} open={visible} onOk={onCheck} onCancel={onReset}>
       <Form {...layout} form={form} name='control-hooks' style={{ maxWidth: 600 }}>
-        <Form.Item name='tag_name' label='标签名' rules={[{ required: true, max: 32 }]}>
+        <Form.Item name='label' label='标签名' rules={[{ required: true, max: 32 }]}>
           <Input />
         </Form.Item>
-        <Form.Item name='tag_description' label='标签描述' rules={[{ required: true, max: 500 }]}>
+        <Form.Item name='content' label='标签描述' rules={[{ required: true, max: 500 }]}>
           <TextArea />
         </Form.Item>
       </Form>

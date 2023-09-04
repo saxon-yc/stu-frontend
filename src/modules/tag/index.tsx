@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Button, Card, Popconfirm, Table } from 'antd';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { debounce } from 'lodash';
-import type { ColumnsType } from 'antd/es/table';
 
 import { QUERY_PARAMS } from 'constants/index';
 import { TAGS } from 'constants/columns';
@@ -25,7 +24,8 @@ export default function TagManagement(): JSX.Element {
   const fetchTags = async (params = {}) => {
     const res: Iobject = await getTags({ ...queryParams, ...params });
     if (res.code === 0) {
-      setTags(res.data);
+      const { list, total_count } = res.data;
+      setTags(list);
     }
   };
   const [tags, setTags] = useState([
@@ -86,7 +86,7 @@ export default function TagManagement(): JSX.Element {
               </Button>
               <Popconfirm
                 title='删除标签'
-                description={`是否要删除「${row.tag_name}」`}
+                description={`是否要删除「${row.label}」`}
                 okType='danger'
                 okText='删除'
                 cancelText='取消'

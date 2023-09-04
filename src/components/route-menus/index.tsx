@@ -6,6 +6,8 @@ import {
   ThunderboltOutlined,
   UsergroupAddOutlined,
 } from '@ant-design/icons';
+import { useUserInfo } from 'hooks/user-info';
+import { isEmpty } from 'lodash';
 
 /* 左侧路由菜单 */
 export const ROUTE_MENUS = [
@@ -36,13 +38,18 @@ export const ROUTE_MENUS = [
 ];
 
 export default function RouteMenus(): JSX.Element {
+  const { userinfo = { menus: [] } } = useUserInfo();
+  const filterdMenus = !isEmpty(userinfo)
+    ? ROUTE_MENUS.filter((item: Iobject) => userinfo?.menus.includes(item.key))
+    : ROUTE_MENUS;
+
   const router = useHistory();
   return (
     <Menu
       theme='light'
       mode='inline'
       defaultSelectedKeys={['']}
-      items={ROUTE_MENUS}
+      items={filterdMenus}
       onClick={({ keyPath }) => {
         router.push(`/${keyPath.join('/')}`);
       }}

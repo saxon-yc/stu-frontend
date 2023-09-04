@@ -7,7 +7,7 @@ import { useHistory } from 'react-router';
 
 export const useUserInfo = () => {
   const history = useHistory();
-  const users = local.get('USER_INFO');
+  const users = local.get('USER_INFO') || { menus: [] };
 
   const [isLogined, setLogined] = useState(Boolean(cookie.get('TOKEN')) || false);
   const [userinfo, setUserinfo] = useState(users);
@@ -17,6 +17,7 @@ export const useUserInfo = () => {
       message.success('登录成功');
       cookie.set('TOKEN', res.data.token, 7);
       local.set('USER_INFO', res.data);
+      setUserinfo(res.data);
       setLogined(true);
       history.replace('/');
     } else {
