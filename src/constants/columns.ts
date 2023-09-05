@@ -50,6 +50,9 @@ export const TAGS: ColumnsType<any> = [
     title: '标签说明',
     dataIndex: 'content',
     key: 'content',
+    ellipsis: {
+      showTitle: false,
+    },
   },
   {
     title: '绑定学生数量',

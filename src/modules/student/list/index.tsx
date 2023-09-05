@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Select, Table, Tag } from 'antd';
+import { useHistory } from 'react-router';
+import { Button, Card, Select, Table, Tag, message } from 'antd';
 import { EditOutlined, DownloadOutlined, PlusOutlined } from '@ant-design/icons';
 import { debounce } from 'lodash';
 
+import { theme } from 'constants/theme';
 import { QUERY_PARAMS } from 'constants/index';
 import { STUDENTS } from 'constants/columns';
+import { addStudent, deleteStudent, getStudents, getTags, updateStudent } from 'apis/index';
 
 import { QueryForm } from 'components/index';
-import { deleteStudent, getStudents, getTags } from 'apis/index';
-import { useHistory } from 'react-router';
-import { theme } from 'constants/theme';
+import CreateUpdateModal from './cu-modal';
 
 const SexOptions = [
   { label: '男', value: 1 },
@@ -18,6 +19,43 @@ const SexOptions = [
 
 export default function StudentList(): JSX.Element {
   const history = useHistory();
+
+  const [isVisibleModal, setIsVisibleModal] = useState(false);
+  const [type, setType] = useState('add');
+  const [editorRow, setEditorRow] = useState({});
+  const handleShowModal = (type: 'add' | 'edtior', row = {}) => {
+    setType(type);
+    setIsVisibleModal(true);
+    setEditorRow(row);
+  };
+  const handleCancel = () => {
+    setEditorRow({});
+    setIsVisibleModal(false);
+  };
+  const onSumbit = async (params: Iobject) => {
+    const res: Iobject =
+      type === 'add'
+        ? await addStudent(params)
+        : await updateStudent({ id: params.id, content: params.content });
+    console.log(res);
+
+    if (res.code === 0) {
+      fetchTags(QUERY_PARAMS);
+      message.success(res.msg);
+    } else {
+      message.error(res.msg);
+    }
+    handleCancel();
+  };
+  const onDelete = async (id = '') => {
+    const res: Iobject = await deleteStudent({ id });
+    if (res.code === 0) {
+      fetchTags(QUERY_PARAMS);
+      message.success(res.msg);
+    } else {
+      message.error(res.msg);
+    }
+  };
 
   const [selectedTags, setSelectedTags] = useState([]);
   const [queryParams, setQueryParams] = useState({ ...QUERY_PARAMS, tags: [], sex: undefined });
@@ -80,13 +118,6 @@ export default function StudentList(): JSX.Element {
     fetchStudents();
     fetchTags();
   }, []);
-
-  const onDelete = async (id = '') => {
-    const res: Iobject = await deleteStudent({ id });
-    if (res.code === 0) {
-      fetchStudents(QUERY_PARAMS);
-    }
-  };
 
   const columns = STUDENTS.map((item) => {
     switch (item.key) {
@@ -167,7 +198,7 @@ export default function StudentList(): JSX.Element {
           </>
         }
       >
-        <Button type='primary' onClick={() => onExport()}>
+        <Button type='primary' onClick={() => handleShowModal('add')}>
           <PlusOutlined />
           新增学生
         </Button>
@@ -179,6 +210,13 @@ export default function StudentList(): JSX.Element {
       <Card>
         <Table dataSource={students} columns={columns} />
       </Card>
+      <CreateUpdateModal
+        title={type === 'add' ? '新建学生' : '编辑学生'}
+        visible={isVisibleModal}
+        editorRow={editorRow}
+        onSubmit={onSumbit}
+        handleCancel={handleCancel}
+      />
     </>
   );
 }

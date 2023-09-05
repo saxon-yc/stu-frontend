@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Card, Popconfirm, Table } from 'antd';
+import { Button, Card, Popconfirm, Table, Tooltip, message } from 'antd';
 import { EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { debounce } from 'lodash';
+import dayjs from 'dayjs';
 
 import { QUERY_PARAMS } from 'constants/index';
 import { TAGS } from 'constants/columns';
@@ -26,24 +27,11 @@ export default function TagManagement(): JSX.Element {
     if (res.code === 0) {
       const { list, total_count } = res.data;
       setTags(list);
+      setTotalCount(total_count);
     }
   };
-  const [tags, setTags] = useState([
-    {
-      id: '1',
-      tag_name: '龋齿',
-      tag_description: '牙齿有问题',
-      bind_number: 32,
-      create_time: Date.now(),
-    },
-    {
-      id: '2',
-      tag_name: '芒果过敏',
-      tag_description: '吃芒果拉肚子',
-      bind_number: 32,
-      create_time: Date.now(),
-    },
-  ]);
+  const [totalCount, setTotalCount] = useState(0);
+  const [tags, setTags] = useState([]);
   useEffect(() => {
     fetchTags();
   }, []);
@@ -60,11 +48,18 @@ export default function TagManagement(): JSX.Element {
     setEditorRow({});
     setIsVisibleModal(false);
   };
-  const onSumbit = async (params = {}) => {
-    const res: Iobject = type === 'add' ? await addTag(params) : await updateTag(params);
+  const onSumbit = async (params: Iobject) => {
+    const res: Iobject =
+      type === 'add'
+        ? await addTag(params)
+        : await updateTag({ id: params.id, content: params.content });
+    console.log(res);
 
     if (res.code === 0) {
       fetchTags(QUERY_PARAMS);
+      message.success(res.msg);
+    } else {
+      message.error(res.msg);
     }
     handleCancel();
   };
@@ -72,11 +67,20 @@ export default function TagManagement(): JSX.Element {
     const res: Iobject = await deleteTag({ id });
     if (res.code === 0) {
       fetchTags(QUERY_PARAMS);
+      message.success(res.msg);
+    } else {
+      message.error(res.msg);
     }
   };
 
   const columns = TAGS.map((item) => {
     switch (item.key) {
+      case 'content':
+        item.render = (filed) => <Tooltip title={filed}>{filed}</Tooltip>;
+        break;
+      case 'create_time':
+        item.render = (filed) => dayjs(filed).format('YYYY-MM-DD HH:mm:ss');
+        break;
       case 'operator':
         item.render = (filed, row) => {
           return (
@@ -92,7 +96,7 @@ export default function TagManagement(): JSX.Element {
                 cancelText='取消'
                 onConfirm={() => onDelete(row.id)}
               >
-                <Button type='text' danger size='small' onClick={() => {}}>
+                <Button type='text' danger size='small'>
                   删除
                 </Button>
               </Popconfirm>
@@ -109,14 +113,28 @@ export default function TagManagement(): JSX.Element {
 
   return (
     <>
-      <QueryForm placeholder='请输入标签名/id' onChangeQuery={debounce(onChangeQueryParams, 100)}>
+      <QueryForm placeholder='请输入标签名' onChangeQuery={debounce(onChangeQueryParams, 100)}>
         <Button type='primary' onClick={() => handleShowModal('add')}>
           <PlusOutlined />
           新增标签
         </Button>
       </QueryForm>
       <Card>
-        <Table dataSource={tags} columns={columns} />
+        <Table
+          key={'id'}
+          dataSource={tags}
+          columns={columns}
+          pagination={{
+            total: totalCount,
+            showSizeChanger: totalCount > 10,
+            current: Math.floor(queryParams.offset / queryParams.limit + 1),
+            pageSize: queryParams.limit,
+            showTotal: (total) => `总计：${total} 个`,
+            onChange: (page, pageSize) =>
+              fetchTags({ offset: (page - 1) * pageSize, limit: pageSize }),
+            onShowSizeChange: (_, size) => fetchTags({ offset: 0, limit: size }),
+          }}
+        />
       </Card>
       <CreateUpdateModal
         title={type === 'add' ? '新增标签' : '编辑标签'}

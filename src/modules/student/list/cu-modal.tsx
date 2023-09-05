@@ -47,10 +47,19 @@ export default function CreateUpdateModal({
   return (
     <Modal title={title} open={visible} onOk={onCheck} onCancel={onReset}>
       <Form {...layout} form={form} name='control-hooks' style={{ maxWidth: 600 }}>
-        <Form.Item name='tag_name' label='标签名' rules={[{ required: true, max: 32 }]}>
+        <Form.Item name='name' label='姓名' rules={[{ required: true, max: 32 }]}>
           <Input />
         </Form.Item>
-        <Form.Item name='tag_description' label='标签描述' rules={[{ required: true, max: 500 }]}>
+        <Form.Item name='age' label='年龄' rules={[{ required: true, max: 500 }]}>
+          <TextArea />
+        </Form.Item>
+        <Form.Item name='gender' label='性别' rules={[{ required: true, max: 500 }]}>
+          <TextArea />
+        </Form.Item>
+        <Form.Item name='address' label='地址' rules={[{ required: true, max: 500 }]}>
+          <TextArea />
+        </Form.Item>
+        <Form.Item name='tags' label='标签' rules={[{ required: true, max: 500 }]}>
           <TextArea />
         </Form.Item>
       </Form>
