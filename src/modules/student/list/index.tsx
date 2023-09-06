@@ -34,7 +34,7 @@ export default function StudentList(): JSX.Element {
         : await updateStudent({ id: params.id, content: params.content });
 
     if (res.code === 0) {
-      fetchTags(QUERY_PARAMS);
+      fetchStudents(QUERY_PARAMS);
       message.success(res.msg);
     } else {
       message.error(res.msg);
@@ -54,7 +54,6 @@ export default function StudentList(): JSX.Element {
   const [selectedTags, setSelectedTags] = useState([]);
   const [queryParams, setQueryParams] = useState({ ...QUERY_PARAMS, tags: [], gender: undefined });
   const onChangeQueryParams = (params = {}) => {
-    console.log(params);
     setQueryParams({
       ...queryParams,
       ...params,
@@ -155,10 +154,10 @@ export default function StudentList(): JSX.Element {
               options={tags}
               value={selectedTags}
               placeholder={'请选择标签'}
-              onChange={(val, options: Iobject) => {
+              onChange={(val, options: any) => {
                 setSelectedTags(val);
                 onChangeQueryParams({
-                  tags: Array.isArray(options) ? options.map((o) => o.id) : [options.id],
+                  tags: options.map(({ value }: Iobject) => value).join(','),
                 });
               }}
             />
@@ -185,8 +184,7 @@ export default function StudentList(): JSX.Element {
             pageSize: queryParams.limit,
             showTotal: (total) => `总计：${total} 个`,
             onChange: (page, pageSize) =>
-              fetchTags({ offset: (page - 1) * pageSize, limit: pageSize }),
-            onShowSizeChange: (_, size) => fetchTags({ offset: 0, limit: size }),
+              fetchStudents({ offset: (page - 1) * pageSize, limit: pageSize }),
           }}
         />
       </Card>
