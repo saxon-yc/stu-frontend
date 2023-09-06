@@ -1,22 +1,24 @@
 import React from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
-import { Button, Card, Checkbox, Form, Input } from 'antd';
-import { useHistory } from 'react-router';
+import { Button, Card, Checkbox, Form, Input, message } from 'antd';
 
 import { useUserInfo } from 'hooks/user-info';
 import './index.scss';
 import { saltMD5 } from 'utils/crypto';
+import { queryDupuser } from 'apis/index';
 
 const Login = (): JSX.Element => {
-  const history = useHistory();
   const { onLogin } = useUserInfo();
 
   const onFinish = async ({ password, account, is_create_account }: Iobject) => {
     onLogin({ account, is_create_account, password: saltMD5(password) });
   };
 
-  const onFinishFailed = (errorInfo: any) => {
-    console.log('Failed:', errorInfo);
+  const onChangeAccount = async (e: Iobject) => {
+    const res: Iobject = await queryDupuser({ account: e.target.value });
+    if (res.code !== 0) {
+      message.warning(res.msg);
+    }
   };
 
   return (
@@ -51,6 +53,7 @@ const Login = (): JSX.Element => {
             <Input
               prefix={<UserOutlined className='site-form-item-icon' />}
               placeholder='请输入账户名'
+              onBlur={onChangeAccount}
             />
           </Form.Item>
           <Form.Item name='password' rules={[{ required: true, message: '请输入密码' }]}>

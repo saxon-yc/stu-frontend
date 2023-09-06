@@ -4,8 +4,8 @@ export const login = async (params: Iobject) => {
   return apiFetch.post(`/login`, params);
 };
 
-export const regist = async (params: Iobject) => {
-  return apiFetch.post(`/regist`, params);
+export const queryDupuser = async (params: Iobject) => {
+  return apiFetch.get(`/dupuser`, { params });
 };
 
 export const update_userinfo = async (params: Iobject) => {
