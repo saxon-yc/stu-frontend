@@ -25,13 +25,10 @@ export default function TagManagement(): JSX.Element {
   const fetchTags = async (params = {}) => {
     const res: Iobject = await getTags({ ...queryParams, ...params });
     if (res.code === 0) {
-      const { list, total_count } = res.data;
-      setTags(list);
-      setTotalCount(total_count);
+      setTags(res.data);
     }
   };
-  const [totalCount, setTotalCount] = useState(0);
-  const [tags, setTags] = useState([]);
+  const [tags, setTags] = useState({ list: [], totalCount: 0 });
   useEffect(() => {
     fetchTags();
   }, []);
@@ -122,11 +119,11 @@ export default function TagManagement(): JSX.Element {
       <Card>
         <Table
           key={'id'}
-          dataSource={tags}
+          dataSource={tags.list}
           columns={columns}
           pagination={{
-            total: totalCount,
-            showSizeChanger: totalCount > 10,
+            total: tags.totalCount,
+            showSizeChanger: tags.totalCount > 10,
             current: Math.floor(queryParams.offset / queryParams.limit + 1),
             pageSize: queryParams.limit,
             showTotal: (total) => `总计：${total} 个`,

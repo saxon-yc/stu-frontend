@@ -5,17 +5,12 @@ import { EditOutlined, DownloadOutlined, PlusOutlined } from '@ant-design/icons'
 import { debounce } from 'lodash';
 
 import { theme } from 'constants/theme';
-import { QUERY_PARAMS } from 'constants/index';
+import { GENDER, QUERY_PARAMS } from 'constants/index';
 import { STUDENTS } from 'constants/columns';
 import { addStudent, deleteStudent, getStudents, getTags, updateStudent } from 'apis/index';
 
 import { QueryForm } from 'components/index';
 import CreateUpdateModal from './cu-modal';
-
-const SexOptions = [
-  { label: '男', value: 1 },
-  { label: '女', value: 2 },
-];
 
 export default function StudentList(): JSX.Element {
   const history = useHistory();
@@ -37,7 +32,6 @@ export default function StudentList(): JSX.Element {
       type === 'add'
         ? await addStudent(params)
         : await updateStudent({ id: params.id, content: params.content });
-    console.log(res);
 
     if (res.code === 0) {
       fetchTags(QUERY_PARAMS);
@@ -58,7 +52,7 @@ export default function StudentList(): JSX.Element {
   };
 
   const [selectedTags, setSelectedTags] = useState([]);
-  const [queryParams, setQueryParams] = useState({ ...QUERY_PARAMS, tags: [], sex: undefined });
+  const [queryParams, setQueryParams] = useState({ ...QUERY_PARAMS, tags: [], gender: undefined });
   const onChangeQueryParams = (params = {}) => {
     console.log(params);
     setQueryParams({
@@ -75,16 +69,7 @@ export default function StudentList(): JSX.Element {
       setTags(list.map((tag: Iobject) => ({ id: tag.id, value: tag.label })));
     }
   };
-  const [tags, setTags] = useState([
-    {
-      id: 1,
-      value: '龋齿',
-    },
-    {
-      id: 2,
-      value: '芒果过敏',
-    },
-  ]);
+  const [tags, setTags] = useState([]);
 
   const fetchStudents = async (params = {}) => {
     const res: Iobject = await getStudents({ ...queryParams, ...params });
@@ -92,28 +77,7 @@ export default function StudentList(): JSX.Element {
       setStudents(res.data);
     }
   };
-  const [students, setStudents] = useState([
-    {
-      id: '1',
-      no: 1,
-      tags: ['龋齿'],
-      name: '张三',
-      age: 4,
-      sex: '男',
-      address: '成都市武侯区',
-      create_time: Date.now(),
-    },
-    {
-      id: '2',
-      no: 2,
-      tags: ['芒果过敏'],
-      name: '李四',
-      age: 4.5,
-      sex: '女',
-      address: '成都市高新区',
-      create_time: Date.now(),
-    },
-  ]);
+  const [students, setStudents] = useState({ list: [], totalCount: 0 });
   useEffect(() => {
     fetchStudents();
     fetchTags();
@@ -121,7 +85,10 @@ export default function StudentList(): JSX.Element {
 
   const columns = STUDENTS.map((item) => {
     switch (item.key) {
-      case 'student_tags':
+      case 'gender':
+        item.render = (filed) => GENDER.find(({ value }) => value === filed)?.label;
+        break;
+      case 'tags':
         item.render = (filed: [], row) => {
           return filed.map((tag) => <Tag>{tag}</Tag>);
         };
@@ -172,12 +139,12 @@ export default function StudentList(): JSX.Element {
             <Select
               style={{ minWidth: '120px' }}
               allowClear
-              options={SexOptions}
-              value={queryParams.sex}
+              options={GENDER}
+              value={queryParams.gender}
               placeholder={'请选择性别'}
-              onChange={(val) => {
+              onChange={(gender) => {
                 onChangeQueryParams({
-                  sex: val,
+                  gender,
                 });
               }}
             />
@@ -188,7 +155,7 @@ export default function StudentList(): JSX.Element {
               options={tags}
               value={selectedTags}
               placeholder={'请选择标签'}
-              onChange={(val, options) => {
+              onChange={(val, options: Iobject) => {
                 setSelectedTags(val);
                 onChangeQueryParams({
                   tags: Array.isArray(options) ? options.map((o) => o.id) : [options.id],
@@ -208,12 +175,26 @@ export default function StudentList(): JSX.Element {
         </Button>
       </QueryForm>
       <Card>
-        <Table dataSource={students} columns={columns} />
+        <Table
+          dataSource={students.list}
+          columns={columns}
+          pagination={{
+            total: students.totalCount,
+            showSizeChanger: students.totalCount > 10,
+            current: Math.floor(queryParams.offset / queryParams.limit + 1),
+            pageSize: queryParams.limit,
+            showTotal: (total) => `总计：${total} 个`,
+            onChange: (page, pageSize) =>
+              fetchTags({ offset: (page - 1) * pageSize, limit: pageSize }),
+            onShowSizeChange: (_, size) => fetchTags({ offset: 0, limit: size }),
+          }}
+        />
       </Card>
       <CreateUpdateModal
-        title={type === 'add' ? '新建学生' : '编辑学生'}
+        title={type === 'add' ? '新增学生' : '编辑学生'}
         visible={isVisibleModal}
         editorRow={editorRow}
+        tags={tags}
         onSubmit={onSumbit}
         handleCancel={handleCancel}
       />

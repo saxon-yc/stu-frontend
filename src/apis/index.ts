@@ -19,7 +19,7 @@ export const getStudentDetail = async (params: Iobject) => {
   return apiFetch.get(`/student/${params.id}`, { params });
 };
 export const addStudent = async (params = {}) => {
-  return apiFetch.post(`/student`, { params });
+  return apiFetch.post(`/student`, params);
 };
 export const updateStudent = async (params = {}) => {
   return apiFetch.put(`/student`, params);

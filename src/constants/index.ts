@@ -9,3 +9,8 @@ export const QUERY_PARAMS = {
   start_time: '',
   end_time: '',
 };
+
+export const GENDER = [
+  { label: '男', value: 'male' },
+  { label: '女', value: 'female' },
+];

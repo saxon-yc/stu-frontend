@@ -4,8 +4,8 @@ import type { ColumnsType } from 'antd/es/table';
 export const STUDENTS: ColumnsType<any> = [
   {
     title: '学号',
-    dataIndex: 'no',
-    key: 'no',
+    dataIndex: 'id',
+    key: 'id',
   },
   {
     title: '姓名',
@@ -19,8 +19,8 @@ export const STUDENTS: ColumnsType<any> = [
   },
   {
     title: '性别',
-    dataIndex: 'sex',
-    key: 'sex',
+    dataIndex: 'gender',
+    key: 'gender',
   },
   {
     title: '标签',
