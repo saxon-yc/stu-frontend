@@ -28,10 +28,7 @@ export default function StudentList(): JSX.Element {
     setIsVisibleModal(false);
   };
   const onSumbit = async (params: Iobject) => {
-    const res: Iobject =
-      type === 'add'
-        ? await addStudent(params)
-        : await updateStudent({ id: params.id, content: params.content });
+    const res: Iobject = type === 'add' ? await addStudent(params) : await updateStudent(params);
 
     if (res.code === 0) {
       fetchStudents(QUERY_PARAMS);
@@ -96,7 +93,13 @@ export default function StudentList(): JSX.Element {
         item.render = (filed, row) => {
           return (
             <>
-              <Button type='text' size='small' onClick={() => {}}>
+              <Button
+                type='text'
+                size='small'
+                onClick={() => {
+                  handleShowModal('edtior', row);
+                }}
+              >
                 <EditOutlined style={{ color: theme.token?.colorPrimary }} />
               </Button>
               <Button type='link' size='small' onClick={() => history.push(`/student/${row.id}`)}>
@@ -124,13 +127,22 @@ export default function StudentList(): JSX.Element {
     }
     return item;
   });
-
+  const onClear = () => {
+    setQueryParams({ ...QUERY_PARAMS, tags: [], gender: undefined });
+    // fetchStudents({ ...QUERY_PARAMS, tags: [], gender: undefined });
+    setSelectedTags([]);
+    if (!queryParams.search_word) {
+      const el = document.querySelector('.ant-input-suffix .ant-input-clear-icon') as HTMLElement;
+      el.click();
+    }
+  };
   const onExport = () => {};
 
   return (
     <>
       <QueryForm
         placeholder='请输入学生姓名/学号'
+        queryParams={queryParams}
         onChangeQuery={debounce(onChangeQueryParams, 100)}
         showDatePicker={false}
         selector={
@@ -161,6 +173,9 @@ export default function StudentList(): JSX.Element {
                 });
               }}
             />
+            <Button type='dashed' onClick={onClear}>
+              清空
+            </Button>
           </>
         }
       >

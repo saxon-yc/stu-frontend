@@ -110,7 +110,11 @@ export default function TagManagement(): JSX.Element {
 
   return (
     <>
-      <QueryForm placeholder='请输入标签名' onChangeQuery={debounce(onChangeQueryParams, 100)}>
+      <QueryForm
+        queryParams={queryParams}
+        placeholder='请输入标签名'
+        onChangeQuery={debounce(onChangeQueryParams, 100)}
+      >
         <Button type='primary' onClick={() => handleShowModal('add')}>
           <PlusOutlined />
           新增标签

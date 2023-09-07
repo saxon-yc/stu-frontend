@@ -112,7 +112,11 @@ export default function NoticeManagement(): JSX.Element {
 
   return (
     <>
-      <QueryForm placeholder='请输入标签名/id' onChangeQuery={debounce(onChangeQueryParams, 100)}>
+      <QueryForm
+        queryParams={queryParams}
+        placeholder='请输入标签名/id'
+        onChangeQuery={debounce(onChangeQueryParams, 100)}
+      >
         <Button type='primary' onClick={() => handleShowModal('add')}>
           <PlusOutlined />
           新建通知

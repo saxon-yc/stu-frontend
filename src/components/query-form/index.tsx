@@ -5,6 +5,7 @@ const { Search } = Input;
 const { RangePicker } = DatePicker;
 
 interface Props {
+  queryParams: Iobject;
   children: ReactNode | JSX.Element;
   placeholder: string;
   showDatePicker?: boolean;
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export default function QueryForm({
+  queryParams,
   children,
   placeholder,
   showDatePicker = true,
@@ -36,7 +38,10 @@ export default function QueryForm({
             style={{ width: 240 }}
             allowClear
             placeholder={placeholder}
-            onSearch={(val: string) => onChangeQuery({ search_word: val })}
+            onSearch={(search_word) => {
+              console.error('test');
+              onChangeQuery({ search_word });
+            }}
           />
           {selector && selector}
           {showDatePicker &&
