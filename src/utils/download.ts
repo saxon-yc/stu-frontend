@@ -4,14 +4,16 @@ import { message } from 'antd';
 import { ApiWhiteList } from 'constants/index';
 import { cookie } from 'utils/storage';
 
-const apiFetch = axios.create({
+const download = axios.create({
   baseURL: '/api/v1',
+  responseType: 'blob', //关键
   timeout: 15000,
 });
-apiFetch.interceptors.request.use(
+download.interceptors.request.use(
   (config: AxiosRequestConfig | Iobject) => {
-    config.headers['Accept'] = 'application/json';
-    config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8';
+    config.headers = {
+      'Content-Type': 'application/octet-stream',
+    };
 
     if (!ApiWhiteList.includes(config.url)) {
       config.headers['token'] = cookie.get('TOKEN');
@@ -25,22 +27,15 @@ apiFetch.interceptors.request.use(
 );
 
 // 添加响应拦截器
-apiFetch.interceptors.response.use(
+download.interceptors.response.use(
   (response: AxiosResponse) => {
-    switch (response.status) {
-      case 200:
-        return response.data;
-
-      case 400:
-      case 401:
-        message.error('接口登录超时');
-        window.open('/login', '_self');
-        return Promise.reject(response);
-
-      default:
-        message.error(response.data.msg);
-        return Promise.reject(response);
+    // 这里做错误判断(这里假设有token直接返回文件流 没有token返回的res包含code)
+    if (response.hasOwnProperty('code') && response.data.code !== 0) {
+      message.error(response.data.msg || '导出错误');
+      return;
     }
+
+    return response;
   },
   (error) => {
     message.error('网络响应超时');
@@ -48,4 +43,4 @@ apiFetch.interceptors.response.use(
   },
 );
 
-export default apiFetch;
+export default download;

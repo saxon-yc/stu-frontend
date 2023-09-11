@@ -1,3 +1,4 @@
+import download from 'utils/download';
 import apiFetch from 'utils/request';
 
 export const login = async (params: Iobject) => {
@@ -15,8 +16,8 @@ export const update_userinfo = async (params: Iobject) => {
 export const getStudents = async (params = {}) => {
   return apiFetch.get(`/student`, { params });
 };
-export const getStudentDetail = async (params: Iobject) => {
-  return apiFetch.get(`/student/${params.id}`, { params });
+export const exportStudents = async (params: Iobject) => {
+  return download.post(`/student/export`, params);
 };
 export const addStudent = async (params = {}) => {
   return apiFetch.post(`/student`, params);
