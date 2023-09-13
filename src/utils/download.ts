@@ -5,7 +5,7 @@ import { ApiWhiteList } from 'constants/index';
 import { cookie } from 'utils/storage';
 
 const download = axios.create({
-  baseURL: '/api/v1',
+  baseURL: '/api',
   responseType: 'blob', //关键
   timeout: 15000,
 });
@@ -16,7 +16,7 @@ download.interceptors.request.use(
     };
 
     if (!ApiWhiteList.includes(config.url)) {
-      config.headers['token'] = cookie.get('TOKEN');
+      config.headers['Authorization'] = cookie.get('TOKEN');
     }
 
     return config;
