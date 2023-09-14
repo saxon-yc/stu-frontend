@@ -1,31 +1,28 @@
 import React, { useMemo } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Form, Input, message } from 'antd';
+import { useForm, useWatch } from 'antd/es/form/Form';
 
 import { useUserInfo } from 'hooks/user-info';
 import './index.scss';
 import { saltMD5 } from 'utils/crypto';
 import { queryDupuser } from 'apis/index';
-import { useForm } from 'antd/es/form/Form';
 
 const Login = (): JSX.Element => {
   const { onLogin } = useUserInfo();
 
   const initialValues = { username: '', password: '', confirm_password: '', is_registe: false };
-  const [userform] = useForm();
-  const isOpen = useMemo(() => userform.getFieldValue('is_registe'), [userform]);
+  const [form] = useForm();
+  const isCheckedRegiste = useWatch('is_registe', form);
 
-  const onFinish = async ({ password, username, is_registe }: Iobject) => {
+  const onFinish = async ({ username, password, is_registe }: Iobject) => {
     onLogin({ username, is_registe, password: saltMD5(password) });
   };
 
-  const onChangeUserName = async (e: Iobject) => {
-    if (!isOpen) return;
-
-    const res: Iobject = await queryDupuser({ username: e.target.value });
-    if (res.code !== 0) {
-      message.warning(res.msg);
-    }
+  const onCheck = async () => {
+    try {
+      const values = await form.validateFields();
+    } catch (errorInfo) {}
   };
 
   return (
@@ -53,28 +50,56 @@ const Login = (): JSX.Element => {
         <Form
           name='control-hooks'
           className='login-form'
-          form={userform}
+          form={form}
           initialValues={initialValues}
           onFinish={onFinish}
         >
-          <Form.Item name='username' rules={[{ required: true, message: '请输入账户名' }]}>
+          <Form.Item
+            name='username'
+            rules={[
+              { required: true, message: '请输入用户名' },
+              ({ getFieldValue }) => ({
+                async validator(_, value) {
+                  if (getFieldValue('is_registe')) {
+                    const res: Iobject = await queryDupuser({ username: value });
+                    if (res.code !== 0) {
+                      return Promise.reject(new Error(res.msg));
+                    }
+                  }
+                  return Promise.resolve();
+                },
+              }),
+            ]}
+          >
             <Input
               prefix={<UserOutlined className='site-form-item-icon' />}
               placeholder='请输入账户名'
-              onBlur={onChangeUserName}
             />
           </Form.Item>
           <Form.Item name='password' rules={[{ required: true, message: '请输入密码' }]}>
-            <Input
+            <Input.Password
               prefix={<LockOutlined className='site-form-item-icon' />}
               type='password'
               placeholder='请输入密码'
               allowClear
             />
           </Form.Item>
-          {isOpen && (
-            <Form.Item name='confirm_password' rules={[{ required: true, message: '请确认密码' }]}>
-              <Input
+          {isCheckedRegiste && (
+            <Form.Item
+              name='confirm_password'
+              rules={[
+                { required: true, message: '请确认密码' },
+                ({ getFieldValue }) => ({
+                  validator(_, value) {
+                    if (value && getFieldValue('password') !== value) {
+                      return Promise.reject(new Error('两次输入的密码不一致'));
+                    }
+                    return Promise.resolve();
+                  },
+                }),
+              ]}
+            >
+              <Input.Password
                 prefix={<LockOutlined className='site-form-item-icon' />}
                 type='password'
                 placeholder='请确认密码'
@@ -89,7 +114,7 @@ const Login = (): JSX.Element => {
           </Form.Item>
 
           <Form.Item>
-            <Button type='primary' htmlType='submit' style={{ width: '100%' }}>
+            <Button type='primary' htmlType='submit' style={{ width: '100%' }} onClick={onCheck}>
               登录
             </Button>
           </Form.Item>

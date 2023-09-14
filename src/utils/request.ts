@@ -27,8 +27,6 @@ apiFetch.interceptors.request.use(
 // 添加响应拦截器
 apiFetch.interceptors.response.use(
   (response: AxiosResponse) => {
-    console.log(response);
-
     switch (response.status) {
       case 200:
         return response.data;
