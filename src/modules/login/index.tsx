@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Form, Input, message } from 'antd';
 
@@ -6,16 +6,23 @@ import { useUserInfo } from 'hooks/user-info';
 import './index.scss';
 import { saltMD5 } from 'utils/crypto';
 import { queryDupuser } from 'apis/index';
+import { useForm } from 'antd/es/form/Form';
 
 const Login = (): JSX.Element => {
   const { onLogin } = useUserInfo();
 
-  const onFinish = async ({ password, account, is_create_account }: Iobject) => {
-    onLogin({ account, is_create_account, password: saltMD5(password) });
+  const initialValues = { username: '', password: '', confirm_password: '', is_registe: false };
+  const [userform] = useForm();
+  const isOpen = useMemo(() => userform.getFieldValue('is_registe'), [userform]);
+
+  const onFinish = async ({ password, username, is_registe }: Iobject) => {
+    onLogin({ username, is_registe, password: saltMD5(password) });
   };
 
-  const onChangeAccount = async (e: Iobject) => {
-    const res: Iobject = await queryDupuser({ account: e.target.value });
+  const onChangeUserName = async (e: Iobject) => {
+    if (!isOpen) return;
+
+    const res: Iobject = await queryDupuser({ username: e.target.value });
     if (res.code !== 0) {
       message.warning(res.msg);
     }
@@ -44,16 +51,17 @@ const Login = (): JSX.Element => {
           「班级管理系统」
         </div>
         <Form
-          name='normal_login'
+          name='control-hooks'
           className='login-form'
-          initialValues={{ is_create_account: false }}
+          form={userform}
+          initialValues={initialValues}
           onFinish={onFinish}
         >
-          <Form.Item name='account' rules={[{ required: true, message: '请输入账户名' }]}>
+          <Form.Item name='username' rules={[{ required: true, message: '请输入账户名' }]}>
             <Input
               prefix={<UserOutlined className='site-form-item-icon' />}
               placeholder='请输入账户名'
-              onBlur={onChangeAccount}
+              onBlur={onChangeUserName}
             />
           </Form.Item>
           <Form.Item name='password' rules={[{ required: true, message: '请输入密码' }]}>
@@ -61,16 +69,23 @@ const Login = (): JSX.Element => {
               prefix={<LockOutlined className='site-form-item-icon' />}
               type='password'
               placeholder='请输入密码'
+              allowClear
             />
           </Form.Item>
-          <Form.Item>
-            <Form.Item name='is_create_account' valuePropName='checked' noStyle>
-              <Checkbox>是否登录并注册账号?</Checkbox>
+          {isOpen && (
+            <Form.Item name='confirm_password' rules={[{ required: true, message: '请确认密码' }]}>
+              <Input
+                prefix={<LockOutlined className='site-form-item-icon' />}
+                type='password'
+                placeholder='请确认密码'
+                allowClear
+              />
             </Form.Item>
-
-            <a className='login-form-forgot' href=''>
-              忘记密码
-            </a>
+          )}
+          <Form.Item>
+            <Form.Item name='is_registe' valuePropName='checked' noStyle>
+              <Checkbox>是否注册并同时登录?</Checkbox>
+            </Form.Item>
           </Form.Item>
 
           <Form.Item>

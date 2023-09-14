@@ -50,7 +50,7 @@ export default function UserAction(): JSX.Element {
     >
       <div>
         <Avatar src={NotAvatar} size={30} icon={<UserOutlined />} />
-        <span style={{ marginLeft: '5px' }}>{userinfo.account}</span>
+        <span style={{ marginLeft: '5px' }}>{userinfo.username}</span>
       </div>
     </Dropdown>
   );
