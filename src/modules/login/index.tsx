@@ -3,7 +3,7 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Button, Card, Checkbox, Form, Input, message } from 'antd';
 import { useForm, useWatch } from 'antd/es/form/Form';
 
-import { useUserInfo } from 'hooks/user-info';
+import { useUserInfo } from 'hooks/use-userinfo';
 import './index.scss';
 import { saltMD5 } from 'utils/crypto';
 import { queryDupuser } from 'apis/index';

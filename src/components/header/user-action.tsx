@@ -3,7 +3,7 @@ import { LogoutOutlined, SettingOutlined, SwapOutlined, UserOutlined } from '@an
 import { Avatar, Dropdown, Space, Divider, Button } from 'antd';
 import type { MenuProps } from 'antd';
 
-import { useUserInfo } from 'hooks/user-info';
+import { useUserInfo } from 'hooks/use-userinfo';
 import { NotAvatar } from 'constants/index';
 
 import './index.scss';

@@ -1,37 +1,53 @@
-import React, { useEffect, useRef } from 'react';
-import AMapLoader from '@amap/amap-jsapi-loader';
+import React, { useCallback, useEffect, useRef } from 'react';
 
+import useAMap from 'hooks/use-amap';
 interface Props {
   width?: string | number;
   height?: string | number;
+  address: string;
 }
 
-export default function MapComponent({ width = 400, height = 300 }: Props): JSX.Element {
-  const map = useRef(null);
-  useEffect(() => {
-    AMapLoader.load({
-      key: '6fd1734a7f0688acd45b31df1eec077f', // 申请好的Web端开发者Key，首次调用 load 时必填
-      version: '2.0', // 指定要加载的 JSAPI 的版本，缺省时默认为 1.4.15
-      plugins: [''], // 需要使用的的插件列表，如比例尺'AMap.Scale'等
-    })
-      .then((AMap) => {
-        map.current = new AMap.Map('map-container', {
-          // 设置地图容器id
-          viewMode: '3D', // 是否为3D地图模式
-          zoom: 5, // 初始化地图级别
-          center: [105.602725, 37.076636], // 初始化地图中心点位置
-        });
-      })
-      .catch((e) => {
-        console.log(e);
+export default function MapComponent({ width = 400, height = 300, address }: Props): JSX.Element {
+  const { amap } = useAMap();
+  const selectAddress = async (address: string) => {
+    const Map = typeof amap === 'function' ? await amap() : amap;
+    const marker = Map.Marker();
+    console.log(address, Map);
+
+    Map.plugin('AMap.Geocoder', () => {
+      var geocoder = new Map.Geocoder({
+        city: '成都', // city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
       });
-  }, []);
+
+      var lnglat = [116.396574, 39.992706];
+
+      geocoder.getAddress(lnglat, (status: string, result: Iobject) => {
+        console.log({ address, result });
+        if (status === 'complete' && result.geocodes.length) {
+          var lnglat = result.geocodes[0].location;
+          marker.setPosition(lnglat);
+          Map.add(marker);
+          Map.setFitView(marker);
+        } else {
+          console.error('根据地址查询位置失败');
+        }
+      });
+    });
+  };
+
+  useEffect(() => {
+    selectAddress(address);
+  }, [address]);
 
   return (
     <div
       id='map-container'
       className='map'
-      style={{ width: `${width}px`, height: `${height}px` }}
-    ></div>
+      style={{
+        width: typeof width === 'number' ? `${width}px` : width,
+        height: typeof height === 'number' ? `${height}px` : width,
+        boxShadow: '0 2px 10px 0 rgba(14,33,39,.2)',
+      }}
+    />
   );
 }

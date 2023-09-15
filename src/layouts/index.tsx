@@ -60,7 +60,7 @@ export default function Container(props: any): JSX.Element {
             padding: 0,
             background: '#fff',
             height: '56px',
-            borderRadius: '6px',
+            borderRadius: '0 0 4px 4px',
             boxShadow:
               '0 1px 2px 0 rgba(0, 0, 0, 0.03), 0 1px 6px -1px rgba(0, 0, 0, 0.02), 0 2px 4px 0 rgba(0, 0, 0, 0.02)',
           }}

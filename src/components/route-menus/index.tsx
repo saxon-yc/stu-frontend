@@ -6,7 +6,7 @@ import {
   ThunderboltOutlined,
   UsergroupAddOutlined,
 } from '@ant-design/icons';
-import { useUserInfo } from 'hooks/user-info';
+import { useUserInfo } from 'hooks/use-userinfo';
 import { isEmpty } from 'lodash';
 
 /* 左侧路由菜单 */

@@ -8,7 +8,7 @@ export const theme: ThemeConfig = {
     colorInfo: '#13C2C2',
     colorTextBase: '#1c3a3b',
     // colorTextBase: '#0a0a0a',
-    borderRadius: 6,
+    borderRadius: 4,
     colorLink: '#1797ff',
     padding: 20,
     // 派生变量，影响范围小

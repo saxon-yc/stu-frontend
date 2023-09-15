@@ -3,7 +3,7 @@ import { useHistory } from 'react-router';
 import { renderRoutes, RouteConfig } from 'react-router-config';
 import { isEmpty, get } from 'lodash';
 
-import { useUserInfo } from 'hooks/user-info';
+import { useUserInfo } from 'hooks/use-userinfo';
 
 const getTargetRoute = (routes: RouteConfig[] | Iobject[], pathname: string): Iobject => {
   const target = get(

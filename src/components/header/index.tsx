@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router';
 import { Input } from 'antd';
 
-import { useUserInfo } from 'hooks/user-info';
+import { useUserInfo } from 'hooks/use-userinfo';
 
 import UserAction from './user-action';
 import './index.scss';

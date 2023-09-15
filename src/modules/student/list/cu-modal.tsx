@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Form, Modal, Input, Select, InputNumber } from 'antd';
-import { GENDER } from 'constants/index';
+import { useWatch } from 'antd/es/form/Form';
 
+import { GENDER } from 'constants/index';
+import MapComponent from 'components/map';
 const { TextArea } = Input;
 
 const layout = {
@@ -26,10 +28,19 @@ export default function CreateUpdateModal({
   onSubmit,
   handleCancel,
 }: Props) {
+  const [initialValues, setInitialValues] = useState<Iobject>({
+    address: '',
+    age: '',
+    gender: '',
+    name: '',
+    tags: '',
+  });
   const [form] = Form.useForm();
+  const address = useWatch('address', form);
 
   useEffect(() => {
-    form.setFieldsValue(visible ? editorRow : {});
+    setInitialValues(visible ? editorRow : {});
+    // form.setFieldsValue(visible ? editorRow : {});
   }, [visible, editorRow]);
 
   const onReset = () => {
@@ -48,8 +59,14 @@ export default function CreateUpdateModal({
   };
 
   return (
-    <Modal title={title} open={visible} onOk={onCheck} onCancel={onReset}>
-      <Form {...layout} form={form} name='control-hooks' style={{ maxWidth: 600 }}>
+    <Modal width={600} title={title} open={visible} onOk={onCheck} onCancel={onReset}>
+      <Form
+        {...layout}
+        form={form}
+        initialValues={initialValues}
+        name='control-hooks'
+        style={{ maxWidth: 600 }}
+      >
         <Form.Item name='name' label='姓名' rules={[{ required: true, max: 32 }]}>
           <Input placeholder={'请输入姓名'} />
         </Form.Item>
@@ -76,7 +93,7 @@ export default function CreateUpdateModal({
             }}
           />
         </Form.Item>
-        <Form.Item name='tags' label='标签' rules={[{ required: true }]}>
+        <Form.Item name='tags' label='标签'>
           <Select
             style={{ minWidth: '120px' }}
             mode='multiple'
@@ -92,7 +109,10 @@ export default function CreateUpdateModal({
           />
         </Form.Item>
         <Form.Item name='address' label='地址' rules={[{ required: true }]}>
-          <Input placeholder={'请输入家庭地址'} />
+          <Input allowClear placeholder={'请输入家庭地址'} />
+        </Form.Item>
+        <Form.Item label=' '>
+          <MapComponent width='100%' address={address} />
         </Form.Item>
       </Form>
     </Modal>
