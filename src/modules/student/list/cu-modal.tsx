@@ -28,19 +28,11 @@ export default function CreateUpdateModal({
   onSubmit,
   handleCancel,
 }: Props) {
-  const [initialValues, setInitialValues] = useState<Iobject>({
-    address: '',
-    age: '',
-    gender: '',
-    name: '',
-    tags: '',
-  });
   const [form] = Form.useForm();
   const address = useWatch('address', form);
 
   useEffect(() => {
-    setInitialValues(visible ? editorRow : {});
-    // form.setFieldsValue(visible ? editorRow : {});
+    form.setFieldsValue(visible ? editorRow : {});
   }, [visible, editorRow]);
 
   const onReset = () => {
@@ -50,29 +42,20 @@ export default function CreateUpdateModal({
   const onCheck = async () => {
     try {
       const values = await form.validateFields();
-      console.log('Success:', values, editorRow);
       onSubmit({ ...editorRow, ...values });
       onReset();
-    } catch (errorInfo) {
-      console.log('Failed:', errorInfo);
-    }
+    } catch (errorInfo) {}
   };
 
   return (
     <Modal width={600} title={title} open={visible} onOk={onCheck} onCancel={onReset}>
-      <Form
-        {...layout}
-        form={form}
-        initialValues={initialValues}
-        name='control-hooks'
-        style={{ maxWidth: 600 }}
-      >
+      <Form {...layout} form={form} name='control-hooks' style={{ maxWidth: 600 }}>
         <Form.Item name='name' label='姓名' rules={[{ required: true, max: 32 }]}>
           <Input placeholder={'请输入姓名'} />
         </Form.Item>
         <Form.Item name='age' label='年龄' rules={[{ required: true }]}>
           <InputNumber
-            placeholder={'年龄'}
+            placeholder={'请输入年龄'}
             min={3}
             max={100}
             value={form.getFieldValue('age') || 3}
