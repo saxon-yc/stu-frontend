@@ -1,6 +1,7 @@
 const path = require('path');
 
 const _resolve = (dir) => path.resolve(__dirname, dir);
+const devServer = require('./dev_server_config');
 
 module.exports = {
   reactScriptsVersion: 'react-scripts' /* (default value) */,
@@ -44,12 +45,5 @@ module.exports = {
     ],
   },
 
-  devServer: {
-    proxy: {
-      '/api': {
-        target: 'http://103.61.37.95:9999',
-        changeOrigin: true,
-      },
-    },
-  },
+  devServer: devServer,
 };

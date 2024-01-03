@@ -23,3 +23,4 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 /bin/*
+/dev_server_config.js

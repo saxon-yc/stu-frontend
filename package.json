@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "craco start",
     "build": "craco build",
-    "deploy": "./bin/deploy.sh portal",
+    "deploy": "./bin/deploy_refrensh.sh portal",
     "test": "craco test"
   },
   "dependencies": {
