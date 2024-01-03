@@ -47,7 +47,7 @@ module.exports = {
   devServer: {
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:9999',
+        target: 'http://103.61.37.95:9999',
         changeOrigin: true,
       },
     },

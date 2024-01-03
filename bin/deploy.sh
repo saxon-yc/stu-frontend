@@ -1,7 +1,7 @@
 #!/bin/sh
 
-PROXY=43.136.181.170
-PROXY_PATH=/etc/deployment/fe
+PROXY=xxx
+PROXY_PATH=xxx
 PROJECT_NAME="student-web"
 
 function sync_portal() {
