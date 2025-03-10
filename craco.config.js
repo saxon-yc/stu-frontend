@@ -1,7 +1,7 @@
 const path = require('path');
 
 const _resolve = (dir) => path.resolve(__dirname, dir);
-const devServer = require('./dev_server_config');
+const devServer = require('./dev.server.config');
 
 module.exports = {
   reactScriptsVersion: 'react-scripts' /* (default value) */,
