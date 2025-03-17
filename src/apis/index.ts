@@ -19,6 +19,9 @@ export const getStudents = async (params = {}) => {
 export const exportStudents = async (params: Iobject) => {
   return download.post(`/v2/student/export`, params);
 };
+export const importStudents = async (params: Iobject) => {
+  return apiFetch.post(`/v2/student/import`, params);
+};
 export const addStudent = async (params = {}) => {
   return apiFetch.post(`/v2/student`, params);
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Button, Card, Select, Table, Tag, message } from 'antd';
-import { EditOutlined, DownloadOutlined, PlusOutlined } from '@ant-design/icons';
+import { EditOutlined, DownloadOutlined, UploadOutlined, PlusOutlined } from '@ant-design/icons';
 import { debounce } from 'lodash';
 
 import { theme } from 'constants/theme';
@@ -13,11 +13,14 @@ import {
   exportStudents,
   getStudents,
   getTags,
+  importStudents,
   updateStudent,
 } from 'apis/index';
 
 import { QueryForm } from 'components/index';
 import CreateUpdateModal from './cu-modal';
+import UploadFile from 'components/upload';
+import useUploader from 'hooks/use-uploader';
 
 export default function StudentList(): JSX.Element {
   const history = useHistory();
@@ -92,8 +95,10 @@ export default function StudentList(): JSX.Element {
         item.render = (filed) => GENDER.find(({ value }) => value === filed)?.label;
         break;
       case 'tags':
-        item.render = (filed: [], row) => {
-          return filed.map((tag) => <Tag>{tag}</Tag>);
+        item.render = (filed: [] = [], row) => {
+          return Array.isArray(row.tags) && row.tags.length > 0
+            ? row.tags.map((tag: string) => <Tag>{tag}</Tag>)
+            : '--';
         };
         break;
       case 'operator':
@@ -167,6 +172,14 @@ export default function StudentList(): JSX.Element {
       window.URL.revokeObjectURL(url);
     });
   };
+  const { uploadFile, uploading } = useUploader({ uploadAPI: importStudents });
+  const onImport = async ({ file }: Iobject) => {
+    console.log(file);
+    const flag = await uploadFile(file);
+    if (flag) {
+      fetchStudents();
+    }
+  };
 
   return (
     <>
@@ -213,9 +226,10 @@ export default function StudentList(): JSX.Element {
           <PlusOutlined />
           新增学生
         </Button>
+        <UploadFile onCustomRequest={onImport} uploading={uploading} placeholder='导入学生' />
         <Button onClick={() => onExport()}>
           <DownloadOutlined />
-          导出学生信息
+          导出学生
         </Button>
       </QueryForm>
       <Card>
